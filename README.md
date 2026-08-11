@@ -10,7 +10,7 @@ npm install
 npm run dev
 ```
 
-Nyisd meg a [http://localhost:3000](http://localhost:3000) címet. **Supabase/Resend/Twilio/Stripe
+Nyisd meg a [http://localhost:3000](http://localhost:3000) címet. **Supabase/Google Workspace/Twilio/Stripe
 kulcsok nélkül is elindul** — ilyenkor demo/mock adatokkal fut (lásd `src/lib/mock-data.ts`),
 az e-mail/SMS küldés pedig a konzolra íródik ki. Éles használathoz másold le a `.env.example`
 fájlt `.env` néven, és töltsd ki a kulcsokat.
@@ -20,7 +20,7 @@ fájlt `.env` néven, és töltsd ki a kulcsokat.
 - **Next.js 14** App Router, TypeScript (strict), Tailwind CSS
 - **Framer Motion** — parallax hero, scroll-reveal, staggered kártyák, layout animációk
 - **Supabase** — PostgreSQL, Auth, Storage (`supabase/migrations/`)
-- **Resend** / **Twilio** — tranzakciós e-mail / SMS (kulcs nélkül konzol-stub)
+- **Google Workspace (Gmail SMTP)** / **Twilio** — tranzakciós e-mail / SMS (kulcsok nélkül konzol-stub)
 - **Stripe** — opcionális asztalfoglalási kaució (kulcs nélkül stub client secret)
 - **react-hook-form + zod** — validáció
 - **dnd-kit** — drag-and-drop sorrendezés az admin étlap kezelőben

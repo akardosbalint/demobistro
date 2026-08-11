@@ -1,13 +1,26 @@
 import "server-only";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { siteConfig } from "@/lib/site-config";
 import { formatDateHu } from "@/lib/utils";
 import type { Booking } from "@/types";
 
-const resendApiKey = process.env.RESEND_API_KEY;
-const fromAddress = process.env.RESEND_FROM_EMAIL ?? "Zöld Sarok <asztal@zoldsarok.hu>";
+// Google Workspace / Gmail SMTP-n keresztül küldünk e-mailt egy dedikált postafiókból
+// (pl. asztal@zoldsarok.hu), alkalmazásjelszóval vagy Workspace SMTP-relay hitelesítéssel.
+const workspaceUser = process.env.GOOGLE_WORKSPACE_EMAIL;
+const workspacePassword = process.env.GOOGLE_WORKSPACE_APP_PASSWORD;
+const fromAddress = process.env.GOOGLE_WORKSPACE_FROM_NAME
+  ? `"${process.env.GOOGLE_WORKSPACE_FROM_NAME}" <${workspaceUser}>`
+  : `"Zöld Sarok" <${workspaceUser}>`;
 
-const resend = resendApiKey ? new Resend(resendApiKey) : null;
+const transporter =
+  workspaceUser && workspacePassword
+    ? nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: { user: workspaceUser, pass: workspacePassword },
+      })
+    : null;
 
 interface SendEmailArgs {
   to: string;
@@ -15,23 +28,21 @@ interface SendEmailArgs {
   html: string;
 }
 
-// Resend API kulcs hiányában konzolra írjuk az e-mailt (fejlesztői stub),
-// így a hívási lánc production-ready marad kulcs nélkül is.
+// Google Workspace hitelesítő adatok hiányában konzolra írjuk az e-mailt (fejlesztői stub),
+// így a hívási lánc production-ready marad kulcsok nélkül is.
 async function sendEmail({ to, subject, html }: SendEmailArgs) {
-  if (!resend) {
+  if (!transporter) {
     console.info(`[email:stub] → ${to} | ${subject}`);
     return { id: "stub", stubbed: true };
   }
 
-  const { data, error } = await resend.emails.send({
-    from: fromAddress,
-    to,
-    subject,
-    html,
-  });
-
-  if (error) throw new Error(`Resend hiba: ${error.message}`);
-  return data;
+  try {
+    const info = await transporter.sendMail({ from: fromAddress, to, subject, html });
+    return info;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Ismeretlen hiba.";
+    throw new Error(`Google Workspace e-mail küldési hiba: ${message}`);
+  }
 }
 
 function bookingSummaryHtml(booking: Booking, heading: string, extra?: string) {
