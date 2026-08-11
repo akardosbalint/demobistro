@@ -12,7 +12,18 @@ export const dynamic = "force-dynamic";
 // review-meghívó e-mail küldése.
 export async function GET(request: NextRequest) {
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret) {
+
+  // Production build-ben a CRON_SECRET beállítása KÖTELEZŐ — enélkül bárki, aki ismeri
+  // az URL-t, tömegesen kiváltaná az emlékeztető e-mail/SMS küldést. Vercel Cron a
+  // beállított CRON_SECRET-et automatikusan mellékeli Authorization: Bearer fejlécként.
+  if (!cronSecret) {
+    if (process.env.NODE_ENV === "production") {
+      return NextResponse.json(
+        { error: "A CRON_SECRET nincs beállítva — a cron endpoint zárva marad." },
+        { status: 503 }
+      );
+    }
+  } else {
     const authHeader = request.headers.get("authorization");
     if (authHeader !== `Bearer ${cronSecret}`) {
       return NextResponse.json({ error: "Jogosulatlan." }, { status: 401 });

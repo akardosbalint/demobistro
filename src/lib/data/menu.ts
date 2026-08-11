@@ -1,3 +1,4 @@
+import "server-only";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { mockCategories, mockMenuItems } from "@/lib/mock-data";

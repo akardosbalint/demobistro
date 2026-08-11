@@ -11,7 +11,7 @@ const patchSchema = z.object({
   name: z.string().min(2).optional(),
   description: z.string().max(500).nullable().optional(),
   price: z.number().int().min(0).optional(),
-  image_url: z.string().nullable().optional(),
+  image_url: z.string().url().nullable().optional().or(z.literal("")),
   dietary_info: z.array(z.string()).optional(),
   allergens: z.array(z.string()).optional(),
   is_available: z.boolean().optional(),
@@ -30,7 +30,10 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     return NextResponse.json({ error: "Érvénytelen adatok." }, { status: 422 });
   }
 
-  const item = await updateMenuItem(params.id, parsed.data);
+  const patch = { ...parsed.data };
+  if (patch.image_url === "") patch.image_url = null;
+
+  const item = await updateMenuItem(params.id, patch);
   return NextResponse.json({ item });
 }
 

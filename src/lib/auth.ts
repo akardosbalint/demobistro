@@ -4,9 +4,12 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 // Ellenőrzi, hogy a jelenlegi kérés egy bejelentkezett admin felhasználótól érkezik-e.
-// Demo módban (Supabase kulcsok nélkül) mindig engedélyezett, hogy az admin UI helyben tesztelhető legyen.
+// Demo módban (Supabase kulcsok nélkül) csak FEJLESZTŐI környezetben engedélyezett a bypass,
+// hogy az admin UI helyben tesztelhető legyen. Production build-ben (NODE_ENV === "production")
+// egy hiányzó/hibás Supabase konfiguráció mindig zárva marad — soha nem nyílik meg "fail open"
+// módon az admin API egy env var elgépelés vagy törlés miatt.
 export async function isAdminRequest(): Promise<boolean> {
-  if (!isSupabaseConfigured) return true;
+  if (!isSupabaseConfigured) return process.env.NODE_ENV !== "production";
 
   const supabase = createServerSupabaseClient();
   const {

@@ -10,8 +10,15 @@ export async function middleware(request: NextRequest) {
   const isLoginRoute = request.nextUrl.pathname === "/admin/login";
 
   if (!isSupabaseConfigured) {
-    // Demo módban (Supabase kulcsok nélkül) nem kényszerítjük ki a bejelentkezést,
-    // hogy az admin felület UI-ja is megtekinthető legyen fejlesztés közben.
+    // Demo módban (Supabase kulcsok nélkül) csak fejlesztői környezetben engedjük át
+    // bejelentkezés nélkül az admin route-okat. Production buildben ez sose fusson "nyitva" —
+    // ha a Supabase konfiguráció hiányzik/hibás éles környezetben, az admin felület zárva marad.
+    if (process.env.NODE_ENV !== "production") {
+      return response;
+    }
+    if (isAdminRoute && !isLoginRoute) {
+      return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
     return response;
   }
 

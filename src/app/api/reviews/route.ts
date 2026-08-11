@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getBookingByToken } from "@/lib/data/bookings";
 import { createReview } from "@/lib/data/reviews";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 // Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
 export const dynamic = "force-dynamic";
@@ -14,6 +15,15 @@ const schema = z.object({
 
 // POST /api/reviews — vendég által beküldött vélemény (a foglalás visszaigazoló tokenjével azonosítva)
 export async function POST(request: NextRequest) {
+  const ip = getClientIp(request);
+  const limit = rateLimit(`review:${ip}`, 5, 10 * 60 * 1000);
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: "Túl sok kísérlet — próbáld újra néhány perc múlva." },
+      { status: 429 }
+    );
+  }
+
   const parsed = schema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: "Érvénytelen adatok." }, { status: 422 });

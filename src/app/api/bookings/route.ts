@@ -6,6 +6,7 @@ import { bookingFormSchema } from "@/lib/validations/booking";
 import { sendBookingConfirmationEmail } from "@/lib/email";
 import { sendBookingConfirmationSms } from "@/lib/sms";
 import { notifyAll } from "@/lib/notify";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 // Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
 export const dynamic = "force-dynamic";
@@ -50,6 +51,15 @@ export async function GET(request: NextRequest) {
 
 // POST /api/bookings — új asztalfoglalás létrehozása
 export async function POST(request: NextRequest) {
+  const ip = getClientIp(request);
+  const limit = rateLimit(`booking:${ip}`, 5, 10 * 60 * 1000);
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: "Túl sok foglalási kísérlet — próbáld újra néhány perc múlva." },
+      { status: 429 }
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
