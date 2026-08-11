@@ -3,6 +3,9 @@ import { requireAdmin } from "@/lib/auth";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 const BUCKET = "menu-images";
 const MAX_SIZE_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];

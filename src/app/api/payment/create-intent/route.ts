@@ -3,6 +3,9 @@ import { z } from "zod";
 import { stripe, isStripeConfigured } from "@/lib/stripe";
 import { getBookingById, updateBooking } from "@/lib/data/bookings";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 const schema = z.object({
   bookingId: z.string().min(1),
   amount: z.number().int().positive(), // HUF, legkisebb egység (nincs tizedesjegy)

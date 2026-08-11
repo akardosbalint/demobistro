@@ -3,6 +3,9 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
 import { createMenuItem } from "@/lib/data/menu-admin";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 const createSchema = z.object({
   category_id: z.string().min(1),
   name: z.string().min(2),

@@ -3,6 +3,9 @@ import { listBookings, updateBooking } from "@/lib/data/bookings";
 import { sendBookingReminderEmail, sendReviewInviteEmail } from "@/lib/email";
 import { sendBookingReminderSms } from "@/lib/sms";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 // Vercel Cron kompatibilis endpoint — javasolt ütemezés: */15 * * * * (15 percenként)
 // Feladatai: 24h / 2h emlékeztetők kiküldése, valamint 2 nappal a bejelentkezés (check-in) után
 // review-meghívó e-mail küldése.

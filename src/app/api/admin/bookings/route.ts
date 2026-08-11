@@ -3,6 +3,9 @@ import { requireAdmin } from "@/lib/auth";
 import { listBookings } from "@/lib/data/bookings";
 import type { BookingStatus } from "@/types";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 // GET /api/admin/bookings?from=&to=&status= — admin foglaláslista szűrőkkel
 export async function GET(request: NextRequest) {
   const unauthorized = await requireAdmin();

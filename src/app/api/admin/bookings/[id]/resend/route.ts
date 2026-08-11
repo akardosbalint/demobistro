@@ -4,6 +4,9 @@ import { getBookingById } from "@/lib/data/bookings";
 import { sendBookingConfirmationEmail } from "@/lib/email";
 import { sendBookingConfirmationSms } from "@/lib/sms";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 // POST /api/admin/bookings/[id]/resend — visszaigazoló e-mail/SMS újraküldése admin kérésre
 export async function POST(_request: NextRequest, { params }: { params: { id: string } }) {
   const unauthorized = await requireAdmin();

@@ -4,6 +4,9 @@ import { requireAdmin } from "@/lib/auth";
 import { createCategory, getAllCategoriesWithItems } from "@/lib/data/menu-admin";
 import { slugify } from "@/lib/utils";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 const createSchema = z.object({
   name: z.string().min(2),
   description: z.string().max(300).nullable().optional(),

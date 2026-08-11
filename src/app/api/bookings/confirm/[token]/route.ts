@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getBookingByToken } from "@/lib/data/bookings";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 // GET /api/bookings/confirm/[token] — foglalás lekérdezése visszaigazoló tokennel
 // (visszaigazoló oldal és a vendég általi lemondás ezt használja, admin session nélkül).
 export async function GET(_request: NextRequest, { params }: { params: { token: string } }) {

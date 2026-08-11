@@ -3,6 +3,9 @@ import { z } from "zod";
 import { getBookingByToken } from "@/lib/data/bookings";
 import { createReview } from "@/lib/data/reviews";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 const schema = z.object({
   token: z.string().uuid(),
   rating: z.number().int().min(1).max(5),

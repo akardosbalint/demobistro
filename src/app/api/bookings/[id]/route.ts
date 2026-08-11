@@ -5,6 +5,9 @@ import { requireAdmin } from "@/lib/auth";
 import { sendBookingCancellationEmail } from "@/lib/email";
 import { sendBookingCancellationSms } from "@/lib/sms";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 const patchSchema = z.object({
   confirmation_token: z.string().uuid().optional(),
   booking_status: z.enum(["confirmed", "checked-in", "no-show", "cancelled"]).optional(),

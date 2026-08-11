@@ -3,6 +3,9 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
 import { getRestaurant, updateRestaurant } from "@/lib/data/restaurant";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 const hoursSchema = z.array(z.object({ day: z.string(), hours: z.string() }));
 
 const patchSchema = z.object({

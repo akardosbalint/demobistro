@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe, isStripeConfigured } from "@/lib/stripe";
 import { listBookings, updateBooking } from "@/lib/data/bookings";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 // POST /api/payment/webhook — Stripe webhook a kaució-fizetések állapotának követésére.

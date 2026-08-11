@@ -6,6 +6,9 @@ import { bookingFormSchema } from "@/lib/validations/booking";
 import { sendBookingConfirmationEmail } from "@/lib/email";
 import { sendBookingConfirmationSms } from "@/lib/sms";
 
+// Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
+export const dynamic = "force-dynamic";
+
 // GET /api/bookings?date=YYYY-MM-DD — az adott napi szabad időpontok lekérdezése
 export async function GET(request: NextRequest) {
   const date = request.nextUrl.searchParams.get("date");
