@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 38% 96%;
+    --foreground: 100 18% 14%;
+
+    --card: 40 45% 98%;
+    --card-foreground: 100 18% 14%;
+
+    --popover: 40 45% 98%;
+    --popover-foreground: 100 18% 14%;
+
+    --primary: 88 33% 27%;
+    --primary-foreground: 40 40% 97%;
+
+    --secondary: 28 38% 89%;
+    --secondary-foreground: 20 45% 20%;
+
+    --muted: 38 25% 91%;
+    --muted-foreground: 30 12% 38%;
+
+    --accent: 38 48% 55%;
+    --accent-foreground: 30 45% 15%;
+
+    --destructive: 5 62% 46%;
+    --destructive-foreground: 40 40% 97%;
+
+    --border: 35 25% 85%;
+    --input: 35 25% 85%;
+    --ring: 88 33% 27%;
+
+    --radius: 1.1rem;
+  }
+
+  .dark {
+    --background: 100 18% 8%;
+    --foreground: 40 30% 92%;
+
+    --card: 100 16% 11%;
+    --card-foreground: 40 30% 92%;
+
+    --popover: 100 16% 11%;
+    --popover-foreground: 40 30% 92%;
+
+    --primary: 88 30% 55%;
+    --primary-foreground: 100 18% 10%;
+
+    --secondary: 24 22% 18%;
+    --secondary-foreground: 38 35% 88%;
+
+    --muted: 100 12% 16%;
+    --muted-foreground: 38 15% 65%;
+
+    --accent: 38 48% 55%;
+    --accent-foreground: 30 45% 12%;
+
+    --destructive: 5 55% 50%;
+    --destructive-foreground: 40 40% 97%;
+
+    --border: 100 12% 20%;
+    --input: 100 12% 20%;
+    --ring: 88 30% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground bg-leaf-texture;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Skeleton shimmer loading placeholder */
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--secondary)) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 1400px 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+
+  .container-narrow {
+    @apply mx-auto w-full max-w-4xl px-6;
+  }
+
+  .section-heading-eyebrow {
+    @apply font-sans text-xs font-semibold uppercase tracking-[0.28em] text-gold-500;
+  }
+}
+
+/* Custom scrollbar for horizontally scrollable pill nav */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
