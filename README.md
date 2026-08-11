@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zöld Sarok Vegan Bistro
 
-## Getting Started
+Prémium növényi alapú bistro márka weboldala: publikus site, animált étlap, foglalási
+rendszer és admin panel. Next.js 14 (App Router) + TypeScript + Tailwind CSS + Framer Motion.
 
-First, run the development server:
+## Gyors indítás
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Nyisd meg a [http://localhost:3000](http://localhost:3000) címet. **Supabase/Resend/Twilio/Stripe
+kulcsok nélkül is elindul** — ilyenkor demo/mock adatokkal fut (lásd `src/lib/mock-data.ts`),
+az e-mail/SMS küldés pedig a konzolra íródik ki. Éles használathoz másold le a `.env.example`
+fájlt `.env` néven, és töltsd ki a kulcsokat.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 14** App Router, TypeScript (strict), Tailwind CSS
+- **Framer Motion** — parallax hero, scroll-reveal, staggered kártyák, layout animációk
+- **Supabase** — PostgreSQL, Auth, Storage (`supabase/migrations/`)
+- **Resend** / **Twilio** — tranzakciós e-mail / SMS (kulcs nélkül konzol-stub)
+- **Stripe** — opcionális asztalfoglalási kaució (kulcs nélkül stub client secret)
+- **react-hook-form + zod** — validáció
+- **dnd-kit** — drag-and-drop sorrendezés az admin étlap kezelőben
 
-## Learn More
+## Struktúra
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/app/(site)/        publikus oldalak (/, /menu, /booking, /review/[token])
+src/app/admin/          admin panel (/admin/login, /admin/*)
+src/app/api/            REST route-ok (bookings, menu, admin/*, cron, payment)
+src/components/         UI (ui/, menu/, booking/, home/, admin/, layout/)
+src/lib/data/           adatelérési réteg — Supabase ha konfigurált, egyébként mock
+src/lib/supabase/       kliens/szerver/admin Supabase kliensek
+supabase/migrations/    séma + RLS policy-k + seed adatok
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Adatbázis
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A `supabase/migrations/0001_init.sql` tartalmazza a sémát (táblák, RLS policy-k), a
+`0002_seed.sql` demo adatokat tölt be. Supabase CLI-vel:
 
-## Deploy on Vercel
+```bash
+supabase link --project-ref <project-ref>
+supabase db push
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Cron
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+A `/api/cron/reminders` endpoint 24h/2h előtti emlékeztetőket és check-in utáni
+review-meghívókat küld. `vercel.json` 15 percenkénti Vercel Cron-t konfigurál.
+Opcionálisan védhető a `CRON_SECRET` env változóval.
