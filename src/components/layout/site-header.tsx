@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { Menu, X, Leaf } from "lucide-react";
+import { Menu, X, Leaf, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
@@ -76,7 +76,18 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="hidden md:block">
+          <div className="hidden items-center gap-3 md:flex">
+            <Link
+              href="/admin/login"
+              aria-label="Admin belépés"
+              title="Admin belépés"
+              className={cn(
+                "rounded-full p-2 transition-colors hover:text-gold-400",
+                solid ? "text-foreground/50" : "text-cream-50/70"
+              )}
+            >
+              <LockKeyhole className="h-4 w-4" />
+            </Link>
             <Button asChild variant="accent" size="default">
               <Link href="/booking">Asztalfoglalás</Link>
             </Button>
@@ -141,6 +152,15 @@ export function SiteHeader() {
                 <Button asChild variant="accent" size="lg" className="mt-4">
                   <Link href="/booking">Asztalfoglalás</Link>
                 </Button>
+              </motion.div>
+              <motion.div variants={{ closed: { opacity: 0, y: 12 }, open: { opacity: 1, y: 0 } }}>
+                <Link
+                  href="/admin/login"
+                  className="mt-2 flex items-center gap-1.5 text-sm text-cream-100/50 hover:text-gold-400"
+                >
+                  <LockKeyhole className="h-3.5 w-3.5" />
+                  Admin belépés
+                </Link>
               </motion.div>
             </motion.nav>
           </motion.div>

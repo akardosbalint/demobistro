@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/admin", label: "Áttekintés", icon: LayoutDashboard },
-  { href: "/admin/bookings", label: "Foglalások", icon: CalendarClock },
+  { href: "/admin/bookings", label: "Foglalások kezelése", icon: CalendarClock },
   { href: "/admin/menu", label: "Étlap", icon: UtensilsCrossed },
   { href: "/admin/reviews", label: "Vélemények", icon: Star },
   { href: "/admin/settings", label: "Beállítások", icon: Settings },

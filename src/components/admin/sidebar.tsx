@@ -8,7 +8,7 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 const navItems = [
   { href: "/admin", label: "Áttekintés", icon: LayoutDashboard },
-  { href: "/admin/bookings", label: "Foglalások", icon: CalendarClock },
+  { href: "/admin/bookings", label: "Foglalások kezelése", icon: CalendarClock },
   { href: "/admin/menu", label: "Étlap kezelő", icon: UtensilsCrossed },
   { href: "/admin/reviews", label: "Vélemények", icon: Star },
   { href: "/admin/settings", label: "Beállítások", icon: Settings },

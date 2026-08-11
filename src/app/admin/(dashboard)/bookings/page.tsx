@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { BookingsManager } from "@/components/admin/bookings-manager";
 
-export const metadata: Metadata = { title: "Foglalások" };
+export const metadata: Metadata = { title: "Foglalások kezelése" };
 
 export default function AdminBookingsPage() {
   return (
