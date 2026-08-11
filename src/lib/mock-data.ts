@@ -3,6 +3,7 @@
 import type { MenuCategory, MenuItem, Review, Unavailability, Restaurant } from "@/types";
 
 const RESTAURANT_ID = "00000000-0000-0000-0000-000000000001";
+const SEED_DATE = "2024-01-15T09:00:00.000Z";
 
 export const mockRestaurant: Restaurant = {
   id: RESTAURANT_ID,
@@ -30,11 +31,11 @@ export const mockRestaurant: Restaurant = {
 };
 
 export const mockCategories: MenuCategory[] = [
-  { id: "cat-1", restaurant_id: RESTAURANT_ID, name: "Levesek", slug: "levesek", description: null, sort_order: 1, created_at: "", updated_at: "" },
-  { id: "cat-2", restaurant_id: RESTAURANT_ID, name: "Előételek", slug: "eloetelek", description: null, sort_order: 2, created_at: "", updated_at: "" },
-  { id: "cat-3", restaurant_id: RESTAURANT_ID, name: "Főételek", slug: "foetelek", description: null, sort_order: 3, created_at: "", updated_at: "" },
-  { id: "cat-4", restaurant_id: RESTAURANT_ID, name: "Desszertek", slug: "desszertek", description: null, sort_order: 4, created_at: "", updated_at: "" },
-  { id: "cat-5", restaurant_id: RESTAURANT_ID, name: "Italok", slug: "italok", description: null, sort_order: 5, created_at: "", updated_at: "" },
+  { id: "cat-1", restaurant_id: RESTAURANT_ID, name: "Levesek", slug: "levesek", description: null, sort_order: 1, created_at: SEED_DATE, updated_at: SEED_DATE },
+  { id: "cat-2", restaurant_id: RESTAURANT_ID, name: "Előételek", slug: "eloetelek", description: null, sort_order: 2, created_at: SEED_DATE, updated_at: SEED_DATE },
+  { id: "cat-3", restaurant_id: RESTAURANT_ID, name: "Főételek", slug: "foetelek", description: null, sort_order: 3, created_at: SEED_DATE, updated_at: SEED_DATE },
+  { id: "cat-4", restaurant_id: RESTAURANT_ID, name: "Desszertek", slug: "desszertek", description: null, sort_order: 4, created_at: SEED_DATE, updated_at: SEED_DATE },
+  { id: "cat-5", restaurant_id: RESTAURANT_ID, name: "Italok", slug: "italok", description: null, sort_order: 5, created_at: SEED_DATE, updated_at: SEED_DATE },
 ];
 
 export const mockMenuItems: MenuItem[] = [
@@ -52,8 +53,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: false,
     portion_size: "300 ml",
     sort_order: 1,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-2",
@@ -69,8 +70,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: false,
     portion_size: "300 ml",
     sort_order: 2,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-3",
@@ -86,8 +87,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: true,
     portion_size: "1 adag",
     sort_order: 1,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-4",
@@ -103,8 +104,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: false,
     portion_size: "1 adag",
     sort_order: 2,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-5",
@@ -120,8 +121,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: true,
     portion_size: "400 g",
     sort_order: 1,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-6",
@@ -137,8 +138,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: false,
     portion_size: "1 adag",
     sort_order: 2,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-7",
@@ -154,8 +155,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: false,
     portion_size: "350 g",
     sort_order: 3,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-8",
@@ -171,8 +172,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: false,
     portion_size: "400 g",
     sort_order: 4,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-9",
@@ -188,8 +189,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: true,
     portion_size: "1 adag",
     sort_order: 1,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-10",
@@ -205,8 +206,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: false,
     portion_size: "1 szelet",
     sort_order: 2,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-11",
@@ -222,8 +223,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: false,
     portion_size: "300 ml",
     sort_order: 1,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
   {
     id: "item-12",
@@ -239,8 +240,8 @@ export const mockMenuItems: MenuItem[] = [
     is_new: false,
     portion_size: "250 ml",
     sort_order: 2,
-    created_at: "",
-    updated_at: "",
+    created_at: SEED_DATE,
+    updated_at: SEED_DATE,
   },
 ];
 
@@ -253,7 +254,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     comment: "A legszebb vegán étterem, ahol jártam — a karfiolsteak felejthetetlen élmény volt!",
     is_published: true,
-    created_at: "",
+    created_at: SEED_DATE,
   },
   {
     id: "rev-2",
@@ -263,7 +264,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     comment: "Kifogástalan kiszolgálás, meghitt hangulat, és minden fogás színpompás volt.",
     is_published: true,
-    created_at: "",
+    created_at: SEED_DATE,
   },
   {
     id: "rev-3",
@@ -273,7 +274,7 @@ export const mockReviews: Review[] = [
     rating: 4,
     comment: "Nagyon finom volt a jackfruit gulyás, biztosan visszatérünk.",
     is_published: true,
-    created_at: "",
+    created_at: SEED_DATE,
   },
   {
     id: "rev-4",
@@ -283,7 +284,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     comment: "Az étlap vizuálisan is lenyűgöző, és minden fogás igazi élmény volt.",
     is_published: true,
-    created_at: "",
+    created_at: SEED_DATE,
   },
 ];
 

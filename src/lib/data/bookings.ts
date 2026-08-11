@@ -44,6 +44,7 @@ function toBookingRow(input: CreateBookingInput): Booking {
     review_invite_sent: false,
     deposit_required: input.deposit_required ?? false,
     deposit_amount: input.deposit_amount ?? null,
+    deposit_paid: false,
     stripe_payment_intent_id: null,
     admin_note: null,
     created_at: now,

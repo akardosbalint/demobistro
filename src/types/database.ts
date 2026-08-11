@@ -94,6 +94,7 @@ export interface Database {
           review_invite_sent: boolean;
           deposit_required: boolean;
           deposit_amount: number | null;
+          deposit_paid: boolean;
           stripe_payment_intent_id: string | null;
           admin_note: string | null;
           created_at: string;
