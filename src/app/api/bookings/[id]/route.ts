@@ -4,6 +4,7 @@ import { getBookingById, updateBooking, deleteBooking } from "@/lib/data/booking
 import { requireAdmin } from "@/lib/auth";
 import { sendBookingCancellationEmail } from "@/lib/email";
 import { sendBookingCancellationSms } from "@/lib/sms";
+import { notifyAll } from "@/lib/notify";
 
 // Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
 export const dynamic = "force-dynamic";
@@ -53,10 +54,10 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   const updated = await updateBooking(params.id, patch);
 
   if (patch.booking_status === "cancelled" && booking.booking_status !== "cancelled") {
-    await Promise.allSettled([
-      sendBookingCancellationEmail(updated),
-      sendBookingCancellationSms(updated),
-    ]);
+    await notifyAll(
+      [sendBookingCancellationEmail(updated), sendBookingCancellationSms(updated)],
+      "booking-cancellation"
+    );
   }
 
   return NextResponse.json({ booking: updated });

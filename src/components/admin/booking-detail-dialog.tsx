@@ -64,10 +64,22 @@ export function BookingDetailDialog({ booking, onOpenChange, onUpdated, onDelete
     setBusy("resend");
     try {
       const res = await fetch(`/api/admin/bookings/${booking.id}/resend`, { method: "POST" });
-      if (!res.ok) throw new Error("Sikertelen küldés.");
-      toast({ title: "Visszaigazolás újraküldve" });
-    } catch {
-      toast({ title: "Hiba történt", variant: "destructive" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Sikertelen küldés.");
+      if (!data.emailSent || !data.smsSent) {
+        toast({
+          title: "Részben sikertelen küldés",
+          description: `E-mail: ${data.emailSent ? "elküldve" : "sikertelen"} · SMS: ${data.smsSent ? "elküldve" : "sikertelen"}`,
+        });
+      } else {
+        toast({ title: "Visszaigazolás újraküldve" });
+      }
+    } catch (err) {
+      toast({
+        title: "Hiba történt",
+        description: err instanceof Error ? err.message : undefined,
+        variant: "destructive",
+      });
     } finally {
       setBusy(null);
     }

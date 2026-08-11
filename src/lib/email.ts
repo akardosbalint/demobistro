@@ -19,6 +19,12 @@ const transporter =
         port: 465,
         secure: true,
         auth: { user: workspaceUser, pass: workspacePassword },
+        // Explicit timeoutok, hogy egy hálózati/hitelesítési probléma gyorsan,
+        // egyértelmű hibaként bukjon el ahelyett, hogy a szerverless függvényt
+        // némán kifuttatná az időkorlátig.
+        connectionTimeout: 10_000,
+        greetingTimeout: 10_000,
+        socketTimeout: 15_000,
       })
     : null;
 

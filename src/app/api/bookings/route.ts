@@ -5,6 +5,7 @@ import { getRestaurant } from "@/lib/data/restaurant";
 import { bookingFormSchema } from "@/lib/validations/booking";
 import { sendBookingConfirmationEmail } from "@/lib/email";
 import { sendBookingConfirmationSms } from "@/lib/sms";
+import { notifyAll } from "@/lib/notify";
 
 // Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
 export const dynamic = "force-dynamic";
@@ -93,11 +94,12 @@ export async function POST(request: NextRequest) {
     dietary_restrictions: data.dietaryRestrictions,
   });
 
-  // E-mail/SMS küldés nem blokkolja a választ hiba esetén (a foglalás már létrejött).
-  await Promise.allSettled([
-    sendBookingConfirmationEmail(booking),
-    sendBookingConfirmationSms(booking),
-  ]);
+  // E-mail/SMS küldés nem blokkolja a választ hiba esetén (a foglalás már létrejött),
+  // de a sikertelen küldést mindig logoljuk (lásd notifyAll).
+  await notifyAll(
+    [sendBookingConfirmationEmail(booking), sendBookingConfirmationSms(booking)],
+    "booking-confirmation"
+  );
 
   return NextResponse.json({ booking }, { status: 201 });
 }

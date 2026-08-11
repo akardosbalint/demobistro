@@ -17,10 +17,28 @@ export async function POST(_request: NextRequest, { params }: { params: { id: st
     return NextResponse.json({ error: "A foglalás nem található." }, { status: 404 });
   }
 
-  await Promise.allSettled([
+  const [emailResult, smsResult] = await Promise.allSettled([
     sendBookingConfirmationEmail(booking),
     sendBookingConfirmationSms(booking),
   ]);
 
-  return NextResponse.json({ success: true });
+  if (emailResult.status === "rejected") {
+    console.error(`[notify:admin-resend:${booking.id}] email sikertelen:`, emailResult.reason);
+  }
+  if (smsResult.status === "rejected") {
+    console.error(`[notify:admin-resend:${booking.id}] sms sikertelen:`, smsResult.reason);
+  }
+
+  if (emailResult.status === "rejected" && smsResult.status === "rejected") {
+    return NextResponse.json(
+      { error: "Az e-mail és az SMS küldése is sikertelen volt. Nézd meg a szerver logot." },
+      { status: 502 }
+    );
+  }
+
+  return NextResponse.json({
+    success: true,
+    emailSent: emailResult.status === "fulfilled",
+    smsSent: smsResult.status === "fulfilled",
+  });
 }

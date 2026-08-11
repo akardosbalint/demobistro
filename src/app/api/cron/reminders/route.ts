@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { listBookings, updateBooking } from "@/lib/data/bookings";
 import { sendBookingReminderEmail, sendReviewInviteEmail } from "@/lib/email";
 import { sendBookingReminderSms } from "@/lib/sms";
+import { notifyAll } from "@/lib/notify";
 
 // Minden API route élő, kérésenkénti adatot szolgál ki — build időben nem statikusan renderelendő.
 export const dynamic = "force-dynamic";
@@ -42,10 +43,10 @@ export async function GET(request: NextRequest) {
       hoursUntil <= 24 &&
       hoursUntil > 1.5
     ) {
-      await Promise.allSettled([
-        sendBookingReminderEmail(booking, 24),
-        sendBookingReminderSms(booking, 24),
-      ]);
+      await notifyAll(
+        [sendBookingReminderEmail(booking, 24), sendBookingReminderSms(booking, 24)],
+        `reminder-24h:${booking.id}`
+      );
       await updateBooking(booking.id, { reminder_sent_24h: true });
       reminders24h++;
     }
@@ -56,10 +57,10 @@ export async function GET(request: NextRequest) {
       hoursUntil <= 2 &&
       hoursUntil > 0
     ) {
-      await Promise.allSettled([
-        sendBookingReminderEmail(booking, 2),
-        sendBookingReminderSms(booking, 2),
-      ]);
+      await notifyAll(
+        [sendBookingReminderEmail(booking, 2), sendBookingReminderSms(booking, 2)],
+        `reminder-2h:${booking.id}`
+      );
       await updateBooking(booking.id, { reminder_sent_2h: true });
       reminders2h++;
     }
@@ -71,7 +72,7 @@ export async function GET(request: NextRequest) {
       daysSinceBooking >= 2
     ) {
       const reviewUrl = `${request.nextUrl.origin}/review/${booking.confirmation_token}`;
-      await sendReviewInviteEmail(booking, reviewUrl);
+      await notifyAll([sendReviewInviteEmail(booking, reviewUrl)], `review-invite:${booking.id}`);
       await updateBooking(booking.id, { review_invite_sent: true });
       reviewInvites++;
     }
