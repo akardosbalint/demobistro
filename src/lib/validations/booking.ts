@@ -27,9 +27,6 @@ export const bookingStepThreeSchema = z.object({
 
 export const bookingFormSchema = bookingStepOneSchema
   .merge(bookingStepTwoSchema)
-  .merge(bookingStepThreeSchema)
-  .extend({
-    depositAccepted: z.boolean().optional(),
-  });
+  .merge(bookingStepThreeSchema);
 
 export type BookingFormSchema = z.infer<typeof bookingFormSchema>;

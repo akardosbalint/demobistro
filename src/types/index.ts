@@ -24,5 +24,4 @@ export interface BookingFormValues {
   guestPhone: string;
   specialRequests?: string;
   dietaryRestrictions: string[];
-  depositAccepted?: boolean;
 }

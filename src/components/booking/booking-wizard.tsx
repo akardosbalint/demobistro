@@ -42,7 +42,6 @@ export function BookingWizard() {
       guestPhone: "",
       dietaryRestrictions: [],
       specialRequests: "",
-      depositAccepted: false,
     },
   });
 

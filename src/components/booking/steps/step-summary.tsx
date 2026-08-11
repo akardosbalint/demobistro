@@ -1,19 +1,14 @@
 "use client";
 
 import type { UseFormReturn } from "react-hook-form";
-import { CalendarDays, Clock, Users, MapPin, Sparkles } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { formatDateHu, formatCurrencyHUF } from "@/lib/utils";
+import { CalendarDays, Clock, Users, MapPin } from "lucide-react";
+import { formatDateHu } from "@/lib/utils";
 import { dietaryLabels, tableTypeLabels } from "@/lib/site-config";
 import type { BookingFormSchema } from "@/lib/validations/booking";
 
-const DEPOSIT_PER_GUEST = 2000;
-
 export function StepSummary({ form }: { form: UseFormReturn<BookingFormSchema> }) {
-  const { watch, setValue } = form;
+  const { watch } = form;
   const values = watch();
-  const depositAmount = (values.guestCount ?? 0) * DEPOSIT_PER_GUEST;
 
   const rows = [
     { icon: CalendarDays, label: "Dátum", value: values.bookingDate ? formatDateHu(values.bookingDate) : "—" },
@@ -65,26 +60,6 @@ export function StepSummary({ form }: { form: UseFormReturn<BookingFormSchema> }
             &bdquo;{values.specialRequests}&rdquo;
           </p>
         )}
-      </div>
-
-      <div className="flex items-center justify-between gap-4 rounded-3xl border border-dashed border-gold-300 bg-gold-50 p-6">
-        <div className="flex items-start gap-3">
-          <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-gold-500" />
-          <div>
-            <Label htmlFor="deposit-toggle" className="text-base">
-              Opcionális asztalfoglalási kaució
-            </Label>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {formatCurrencyHUF(DEPOSIT_PER_GUEST)}/fő — összesen {formatCurrencyHUF(depositAmount)}.
-              Étkezéskor levonjuk a végösszegből.
-            </p>
-          </div>
-        </div>
-        <Switch
-          id="deposit-toggle"
-          checked={Boolean(values.depositAccepted)}
-          onCheckedChange={(checked) => setValue("depositAccepted", checked)}
-        />
       </div>
     </div>
   );
