@@ -7,6 +7,9 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob: https://images.unsplash.com https://*.supabase.co",
   "font-src 'self' data:",
   "connect-src 'self' https://*.supabase.co",
+  // A canvas-confetti (sikeres foglalás animáció) egy blob: worker-t hoz létre teljesítmény
+  // okokból; enélkül a böngésző elutasítja a worker létrehozását (némán visszaesik fő szálra).
+  "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

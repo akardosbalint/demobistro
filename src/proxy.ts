@@ -3,7 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 import { isSupabaseConfigured, supabaseUrl, supabaseAnonKey } from "@/lib/supabase/env";
 
 // Frissíti a Supabase session sütiket, és megvédi az /admin route-okat (kivéve a login oldalt).
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request: { headers: request.headers } });
 
   const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");

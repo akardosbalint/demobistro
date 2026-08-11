@@ -11,7 +11,7 @@ export async function getPublishedReviews(): Promise<Review[]> {
     return mockReviews.filter((r) => r.is_published);
   }
 
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase
     .from("reviews")
     .select("*")

@@ -8,7 +8,8 @@ import { sendBookingConfirmationSms } from "@/lib/sms";
 export const dynamic = "force-dynamic";
 
 // POST /api/admin/bookings/[id]/resend — visszaigazoló e-mail/SMS újraküldése admin kérésre
-export async function POST(_request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const unauthorized = await requireAdmin();
   if (unauthorized) return unauthorized;
 

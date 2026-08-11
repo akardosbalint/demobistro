@@ -11,7 +11,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 export async function isAdminRequest(): Promise<boolean> {
   if (!isSupabaseConfigured) return process.env.NODE_ENV !== "production";
 
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

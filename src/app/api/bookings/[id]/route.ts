@@ -20,7 +20,8 @@ const patchSchema = z.object({
 });
 
 // PATCH /api/bookings/[id] — vendég lemondás (confirmation_token-nel) vagy admin szerkesztés
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const booking = await getBookingById(params.id);
   if (!booking) {
     return NextResponse.json({ error: "A foglalás nem található." }, { status: 404 });
@@ -64,7 +65,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 }
 
 // DELETE /api/bookings/[id] — admin által végleges törlés
-export async function DELETE(_request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const unauthorized = await requireAdmin();
   if (unauthorized) return unauthorized;
 

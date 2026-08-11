@@ -5,7 +5,8 @@ import { ReviewForm } from "@/components/review/review-form";
 
 export const metadata: Metadata = { title: "Vélemény írása" };
 
-export default async function ReviewPage({ params }: { params: { token: string } }) {
+export default async function ReviewPage(props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const booking = await getBookingByToken(params.token);
   if (!booking) notFound();
 

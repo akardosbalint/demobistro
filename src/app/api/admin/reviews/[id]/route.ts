@@ -8,7 +8,8 @@ export const dynamic = "force-dynamic";
 
 const schema = z.object({ is_published: z.boolean() });
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const unauthorized = await requireAdmin();
   if (unauthorized) return unauthorized;
 

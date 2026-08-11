@@ -6,7 +6,8 @@ export const dynamic = "force-dynamic";
 
 // GET /api/bookings/confirm/[token] — foglalás lekérdezése visszaigazoló tokennel
 // (visszaigazoló oldal és a vendég általi lemondás ezt használja, admin session nélkül).
-export async function GET(_request: NextRequest, { params }: { params: { token: string } }) {
+export async function GET(_request: NextRequest, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const booking = await getBookingByToken(params.token);
 
   if (!booking) {

@@ -1,18 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+function subscribe(query: string, callback: () => void) {
+  const mediaQueryList = window.matchMedia(query);
+  mediaQueryList.addEventListener("change", callback);
+  return () => mediaQueryList.removeEventListener("change", callback);
+}
 
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(false);
-
-  useEffect(() => {
-    const mediaQueryList = window.matchMedia(query);
-    setMatches(mediaQueryList.matches);
-
-    const listener = (event: MediaQueryListEvent) => setMatches(event.matches);
-    mediaQueryList.addEventListener("change", listener);
-    return () => mediaQueryList.removeEventListener("change", listener);
-  }, [query]);
-
-  return matches;
+  return useSyncExternalStore(
+    (callback) => subscribe(query, callback),
+    () => window.matchMedia(query).matches,
+    () => false // szerver oldali (hidratáció előtti) alapérték
+  );
 }

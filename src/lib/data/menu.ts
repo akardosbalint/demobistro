@@ -17,7 +17,7 @@ export async function getMenuCategoriesWithItems(): Promise<MenuCategoryWithItem
       }));
   }
 
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   const { data: categories, error: categoriesError } = await supabase
     .from("menu_categories")
     .select("*")

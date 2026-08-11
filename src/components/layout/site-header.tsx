@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { Menu, X, Leaf, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,9 +27,13 @@ export function SiteHeader() {
     setScrolled(latest > 40);
   });
 
-  useEffect(() => {
+  // Navigációkor zárjuk a mobilmenüt — render közbeni state-igazítás effect helyett
+  // (lásd: "Adjusting state when a prop changes" a React dokumentációban).
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setMobileOpen(false);
-  }, [pathname]);
+  }
 
   const solid = scrolled || !isHome;
 

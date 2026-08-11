@@ -10,7 +10,7 @@ export async function getRestaurant(): Promise<Restaurant> {
     return mockRestaurant;
   }
 
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase.from("restaurants").select("*").limit(1).single();
 
   if (error || !data) return mockRestaurant;
