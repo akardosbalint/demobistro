@@ -10,12 +10,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 
+const DEMO_ADMIN_EMAIL = "demo@bistro.miepitettuk.hu";
+const DEMO_ADMIN_PASSWORD = "DemoAdmin123";
+
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const fillDemoCredentials = () => {
+    setEmail(DEMO_ADMIN_EMAIL);
+    setPassword(DEMO_ADMIN_PASSWORD);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,35 +69,53 @@ export default function AdminLoginPage() {
             </Button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div>
-              <Label htmlFor="email">E-mail cím</Label>
-              <Input
-                id="email"
-                type="email"
-                required
-                className="mt-1.5"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+          <div className="flex flex-col gap-5">
+            <div className="rounded-xl border border-dashed border-avocado-300 bg-avocado-50 p-4 text-sm">
+              <p className="font-medium text-avocado-800">Demo admin belépés</p>
+              <p className="mt-1 text-avocado-700/80">
+                {DEMO_ADMIN_EMAIL}
+                <br />
+                {DEMO_ADMIN_PASSWORD}
+              </p>
+              <button
+                type="button"
+                onClick={fillDemoCredentials}
+                className="mt-2 text-xs font-semibold text-avocado-700 underline underline-offset-2 hover:text-avocado-800"
+              >
+                Kitöltés egy kattintással
+              </button>
             </div>
-            <div>
-              <Label htmlFor="password">Jelszó</Label>
-              <Input
-                id="password"
-                type="password"
-                required
-                className="mt-1.5"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" size="lg" disabled={loading} className="mt-2 gap-2">
-              {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-              Bejelentkezés
-            </Button>
-          </form>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div>
+                <Label htmlFor="email">E-mail cím</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  required
+                  className="mt-1.5"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="password">Jelszó</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  className="mt-1.5"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              {error && <p className="text-sm text-destructive">{error}</p>}
+              <Button type="submit" size="lg" disabled={loading} className="mt-2 gap-2">
+                {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+                Bejelentkezés
+              </Button>
+            </form>
+          </div>
         )}
 
         <Link
