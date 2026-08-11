@@ -4,8 +4,9 @@ import { useEffect } from "react";
 import Link from "next/link";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { CalendarPlus, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { buildGoogleCalendarUrl } from "@/lib/calendar";
 import { formatDateHu } from "@/lib/utils";
 import type { Booking } from "@/types";
 
@@ -62,6 +63,17 @@ export function SuccessScreen({ booking }: { booking: Booking }) {
           <span className="font-mono text-xs">{booking.confirmation_token.slice(0, 8)}</span>
         </div>
       </div>
+
+      <Button asChild size="lg" variant="outline" className="mt-4 w-full sm:w-auto">
+        <a
+          href={buildGoogleCalendarUrl(booking)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <CalendarPlus className="h-4 w-4" />
+          Hozzáadás Google Calendarhoz
+        </a>
+      </Button>
 
       <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
         <Button asChild size="lg">
