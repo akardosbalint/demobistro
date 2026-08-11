@@ -21,7 +21,7 @@ export const bookingStepThreeSchema = z.object({
     .string()
     .min(6, "Add meg a telefonszámod.")
     .regex(/^[0-9+\s()-]+$/, "Érvénytelen telefonszám formátum."),
-  dietaryRestrictions: z.array(z.string()).default([]),
+  dietaryRestrictions: z.array(z.string()),
   specialRequests: z.string().max(500, "Legfeljebb 500 karakter.").optional(),
 });
 
